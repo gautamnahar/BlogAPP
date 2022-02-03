@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Blog</title>
+</head>
+<body>
+    {% extends 'BLOGAPP/base.html' %}
+
+    {% block content %}
+
+    {% if user.is_authenticated %}
+
+        <h2>Add your Post</h2>
+        <br/>
+        <div class="mb-3">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-secondary">Post</button>
+            </form>
+        </div>
+
+    <script>
+        var name = "{{ user.id }}";
+        document.getElementById("nahar").value = name;
+    </script>
+
+    {% else %}
+
+        You are not allowed here! (and you know it...)
+
+    {% endif %}
+
+    {% endblock %}
+</body>
+</html>

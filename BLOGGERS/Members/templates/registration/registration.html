@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+    {% extends 'BLOGAPP/base.html' %}
+
+    {% block content %}
+
+    <br/>
+    <div class="mb-3">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-secondary">Register</button>
+        </form>
+    </div>
+
+
+    {% endblock %}
+
+</body>
+</html>

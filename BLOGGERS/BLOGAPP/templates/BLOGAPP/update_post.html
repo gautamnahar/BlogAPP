@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Post</title>
+</head>
+<body>
+{% extends 'BLOGAPP/base.html' %}
+
+    {% block content %}
+
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+
+            <h3>Edit here</h3>
+            <br/>
+            <div class="mb-3">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-secondary">Done</button>
+                </form>
+            </div>
+        {% else %}
+            <h2>You're not allowed to edit!</h2>
+        {% endif %}
+
+    {% else %}
+
+        You are not allowed here! (and you know it...)
+
+    {% endif %}
+
+    {% endblock %}
+</body>
+</html>

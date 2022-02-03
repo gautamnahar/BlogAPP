@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+{% extends 'BLOGAPP/base.html' %}
+
+{% block title %}
+{{ post.title_tag }}
+{% endblock %}
+
+{% block content %}
+
+<h2>{{ post.title }}</h2>
+<small>By: {{ post.author.first_name }} {{post.author.last_name}}</small> - created on: {{post.post_date}}<br/>
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+
+        <a href="{% url 'update_post' post.pk %}" class="btn btn-secondary">Edit</a>
+        <a style="margin:10px" href="{% url 'delete_post' post.pk %}" class="btn btn-secondary">Delete</a>
+
+    {% endif %}
+{% endif %}
+<hr>
+{{ post.body|safe }}
+
+{% if user.is_authenticated %}
+
+    <br/>
+    <br/><br/>
+    <form action ="{% url 'like_post' post.pk %}" method ="post">
+        {% csrf_token %}
+        {% if liked %}
+            <small>
+                <button type="submit" , name="post_id" , value="{{ post.id }}" , class="btn btn-danger btn-sm">UnLike</button>
+            </small>
+        {% else %}
+            <small>
+                <button type="submit" , name="post_id" , value="{{ post.id }}" , class="btn btn-primary btn-sm">Like</button>
+            </small>
+        {% endif %}
+         ({{ total_likes }})
+    </form>
+
+<hr>
+<h3>Comments</h3>
+<a href="{% url 'add_comment' post.pk %}">Add Comment</a>
+<br/><br/>
+{% if not post.comments.all %}
+    No Comments Yet..
+{% else %}
+    {% for comment in post.comments.all %}
+        <strong>{{ comment.name }}</strong> - {{ comment.date_added }}
+        <br/>
+        {{ comment.body }}
+        <br/><br/>
+    {% endfor %}
+    <hr>
+{% endif %}
+{% endif %}
+
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Post?</title>
+</head>
+<body>
+{% extends 'BLOGAPP/base.html' %}
+
+    {% block content %}
+
+    {% if user.is_authenticated %}
+        {% if user.id == post.author.id %}
+
+            <h1>{{ post.title }}</h1>
+            <small>By: {{ post.author.first_name }} {{post.author.last_name}}</small><br/>
+            <hr>
+            <br/>
+            {{ post.body }}
+
+            <br/><br/>
+                <div class="mb-3">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <strong>Are you sure you wanna delete Post?</strong><br/>
+                        <a href="{% url 'article-detail' post.pk %}" class="btn btn-secondary">Back</a>
+                        <button style="margin:20px" class="btn btn-secondary">Delete</button>
+                    </form>
+                </div>
+        {% else %}
+
+            You are not allowed to delete anyone's post!
+
+        {% endif %}
+
+    {% else %}
+
+        You are not allowed here! (and you know it...)
+
+    {% endif %}
+
+    {% endblock %}
+</body>
+</html>
